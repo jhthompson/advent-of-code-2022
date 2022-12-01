@@ -1,7 +1,7 @@
 with open('input/input.txt') as f:
     lines = f.readlines()
 
-    highest = 0
+    totals = []
     current = 0
 
     for line in lines:
@@ -9,8 +9,8 @@ with open('input/input.txt') as f:
         if line:
             current += int(line)
         else:
-            if current > highest:
-                highest = current
+            totals.append(current)
             current = 0
 
-    print(highest)
+    totals.sort(reverse=True)
+    print(sum(totals[:3]))
