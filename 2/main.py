@@ -1,13 +1,60 @@
+ROCK = 'A'
+PAPER = 'B'
+SCISSORS = 'C'
+
+WIN = 'Z'
+LOSE = 'X'
+DRAW = 'Y'
+
+
 def rock(s):
-    return s == 'A' or s == 'X'
+    return s == ROCK
 
 
 def paper(s):
-    return s == 'B' or s == 'Y'
+    return s == PAPER
 
 
 def scissors(s):
-    return s == 'C' or s == 'Z'
+    return s == SCISSORS
+
+
+def lose(s):
+    return s == LOSE
+
+
+def draw(s):
+    return s == DRAW
+
+
+def win(s):
+    return s == WIN
+
+
+def determine_shape(outcome, opponent):
+    if win(outcome):
+        if rock(opponent):
+            return PAPER
+        if paper(opponent):
+            return SCISSORS
+        if scissors(opponent):
+            return ROCK
+
+    if draw(outcome):
+        if rock(opponent):
+            return ROCK
+        if paper(opponent):
+            return PAPER
+        if scissors(opponent):
+            return SCISSORS
+
+    if lose(outcome):
+        if rock(opponent):
+            return SCISSORS
+        if paper(opponent):
+            return ROCK
+        if scissors(opponent):
+            return PAPER
 
 
 def points_for_shape(s):
@@ -51,9 +98,11 @@ with open('input/input.txt') as f:
     points = 0
 
     for i, line in enumerate(lines):
-        o, y = line.split(' ')
-        yourself = y.strip()
-        opponent = o.strip()
+        _opponent, _outcome = line.split(' ')
+        outcome = _outcome.strip()
+        opponent = _opponent.strip()
+
+        yourself = determine_shape(outcome, opponent)
 
         points += points_for_shape(yourself)
         points += points_for_outcome(opponent, yourself)
