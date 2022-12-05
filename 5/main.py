@@ -24,9 +24,13 @@ def move_crates(stacks: list, steps: list) -> list:
         ending_stack = int(m.group(3))
 
         # move the crates
+        crates_to_move = deque()
+
         for _ in range(num_crates):
-            top_crate = deques[starting_stack-1].pop()
-            deques[ending_stack-1].append(top_crate)
+            crates_to_move.appendleft(deques[starting_stack-1].pop())
+
+        for crate in crates_to_move:
+            deques[ending_stack-1].append(crate)
 
     return deques
 
