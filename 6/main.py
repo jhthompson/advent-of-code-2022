@@ -24,4 +24,4 @@ def find_first_unique_occurence(line: str, window_size: int):
 with open('input/input.txt') as f:
     line = f.readline().strip()
 
-    print(find_first_unique_occurence(line, 4))
+    print(find_first_unique_occurence(line, 14))
