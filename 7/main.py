@@ -113,12 +113,17 @@ with open('input/input.txt') as f:
     # traverse data structure and compute all directory sizes
     directory_sizes = get_all_directory_sizes(root_node)
 
-    # get part one answer
-    threshold = 100_000
-    total_size = 0
+    # get part two answer
+    total_disk_space = 70_000_000
+    required_unused_space = 30_000_000
 
+    total_used_space = get_directory_size(root_node)
+    current_unused_space = total_disk_space - total_used_space
+    minimum_directory_to_delete_size = required_unused_space - current_unused_space
+
+    smallest_directory_size = total_disk_space - required_unused_space
     for name, size in directory_sizes.items():
-        if size <= threshold:
-            total_size += size
+        if size <= smallest_directory_size and size >= minimum_directory_to_delete_size:
+            smallest_directory_size = size
 
-    print(total_size)
+    print(smallest_directory_size)
