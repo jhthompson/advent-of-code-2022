@@ -1,8 +1,7 @@
 def calculate_number_of_tiles_visited(lines) -> int:
     # treat each point as tuple of (x, y)
-    # both head and tail start at origin
-    head = (0, 0)
-    tail = (0, 0)
+    number_of_knots = 10
+    knots = [(0, 0) for _ in range(number_of_knots)]
 
     visited_tiles = set()
     visited_tiles.add((0, 0))
@@ -13,13 +12,17 @@ def calculate_number_of_tiles_visited(lines) -> int:
         amount = int(amount)
 
         for _ in range(amount):
-            updated_head = move_head(direction, 1, head)
-            updated_tail = move_tail(updated_head, tail)
+            updated_head = move_head(direction, 1, knots[0])
+            knots[0] = updated_head
 
-            visited_tiles.add(updated_tail)
+            # move all knots behind the head
+            for index, knot in enumerate(knots[1:]):
+                # print(f'Moving knot #{index +1} from {knot} to keep up with {knots[index]}')
+                updated_knot = move_tail(knots[index], knot)
+                knots[index+1] = updated_knot
 
-            head = updated_head
-            tail = updated_tail
+                if index == len(knots) - 2:
+                    visited_tiles.add(updated_knot)
 
     return len(visited_tiles)
 
@@ -67,6 +70,9 @@ def move_tail(head, tail):
             y_vector_to_move = y_vector
         elif abs(y_vector) > abs(x_vector):
             x_vector_to_move = x_vector
+            y_vector_to_move = y_vector - 1 if y_vector > 0 else y_vector + 1
+        else:
+            x_vector_to_move = x_vector - 1 if x_vector > 0 else x_vector + 1
             y_vector_to_move = y_vector - 1 if y_vector > 0 else y_vector + 1
 
         return (x_tail + x_vector_to_move, y_tail + y_vector_to_move)
